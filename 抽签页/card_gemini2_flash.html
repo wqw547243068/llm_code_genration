@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>玉虚宫抽签系统</title>
+<style>
+body {
+    background-color: skyblue;
+    overflow: hidden; /* 隐藏滚动条 */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* 顶部对齐 */
+    height: 100vh; /* 占据整个视口高度 */
+}
+
+/* 云朵样式 */
+.cloud {
+    position: absolute;
+    width: 150px;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    filter: blur(5px);
+    animation: cloudMove 20s linear infinite;
+}
+
+/* 太阳样式 */
+.sun {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+    background-color: rgba(255, 255, 0, 0.8);
+    border-radius: 50%;
+    filter: blur(8px);
+    box-shadow: 0 0 30px 10px rgba(255, 255, 0, 0.5);
+}
+
+/* 云朵动画 */
+@keyframes cloudMove {
+    0% { left: -150px; }
+    100% { left: 100%; }
+}
+
+/* 标题样式 */
+h1 {
+    font-size: 3em;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+/* 模型名称样式 */
+#modelName {
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 卡片容器样式 */
+.card-container {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    perspective: 800px;
+    margin-bottom: 20px;
+}
+
+/* 卡片样式 */
+.card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: white;
+}
+
+.card.shaking {
+    animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(3deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-3deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* 卡片正面样式 */
+.card-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* 卡片背面样式 */
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background-color: white;
+    color: green;
+    transform: rotateY(180deg);
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.card-back p {
+    margin: 5px 0;
+    font-family: "Microsoft YaHei", sans-serif;
+    font-size: 1.2em;
+    text-shadow: 1px 1px 2px white;
+}
+
+/* 人物头像样式 */
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 人物姓名样式 */
+.name {
+    font-family: "隶书", serif;
+    font-size: 2em;
+    color: red;
+    text-shadow: 2px 2px 3px gold;
+    margin-bottom: 10px;
+}
+
+/* 按钮容器样式 */
+.button-container {
+    display: flex;
+    gap: 20px;
+}
+
+/* 按钮样式 */
+.button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+}
+
+.start-button {
+    background-color: green;
+}
+
+.stop-button {
+    background-color: red;
+}
+
+/* 高亮显示样式 */
+.highlight {
+    box-shadow: 0 0 20px 5px gold;
+    transform: scale(1.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+</style>
+</head>
+<body>
+    <div class="sun"></div>
+    <div class="cloud" style="top: 50px; left: 10%;"></div>
+    <div class="cloud" style="top: 150px; left: 30%;"></div>
+    <div class="cloud" style="top: 250px; left: 60%;"></div>
+    <div class="cloud" style="top: 350px; left: 80%;"></div>
+
+    <h1>玉虚宫抽签系统</h1>
+    <p id="modelName">模型名称: 加载中...</p>
+
+    <div class="card-container">
+        <div class="card">
+            <div class="card-front">
+                <img src="" alt="人物头像" class="avatar">
+                <div class="name">人物姓名</div>
+            </div>
+            <div class="card-back">
+                <p>姓名: <span id="detailName"></span></p>
+                <p>年龄: <span id="detailAge"></span></p>
+                <p>技能: <span id="detailSkill"></span></p>
+                <p>性格: <span id="detailCharacter"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button class="button start-button">开始点名</button>
+        <button class="button stop-button">停止点名</button>
+    </div>
+
+    <script>
+        const modelNameElement = document.getElementById('modelName');
+        const cardContainer = document.querySelector('.card-container');
+        const card = document.querySelector('.card');
+        const avatar = document.querySelector('.avatar');
+        const nameElement = document.querySelector('.name');
+        const startButton = document.querySelector('.start-button');
+        const stopButton = document.querySelector('.stop-button');
+        const cardFront = document.querySelector('.card-front');
+        const cardBack = document.querySelector('.card-back');
+
+        const detailName = document.getElementById('detailName');
+        const detailAge = document.getElementById('detailAge');
+        const detailSkill = document.getElementById('detailSkill');
+        const detailCharacter = document.getElementById('detailCharacter');
+
+        const characters = [
+            { "name": "哪吒", "url": "哪吒2/哪吒.jpg", "age": 7, "skill": "乾坤圈, 火尖枪", "character": "调皮捣蛋, 嫉恶如仇" },
+            { "name": "敖丙", "url": "哪吒2/敖丙.jpg", "age": 7, "skill": "冰锥, 龙族法术", "character": "温文尔雅, 责任感强" },
+            { "name": "李靖", "url": "哪吒2/李靖.jpg", "age": 40, "skill": "玲珑宝塔, 剑术", "character": "威严, 责任感强" },
+            { "name": "申公豹", "url": "哪吒2/申公豹.jpg", "age": 50, "skill": "法术, 蛊惑人心", "character": "阴险狡诈, 嫉妒心强" },
+            { "name": "无量仙翁", "url": "哪吒2/无量仙翁.jpg", "age": 1000, "skill": "仙术", "character": "神秘莫测" },
+            { "name": "鹤童", "url": "哪吒2/鹤童.jpg", "age": 500, "skill": "炼丹", "character": "憨厚老实" },
+            { "name": "鹿童", "url": "哪吒2/鹿童.jpg", "age": 500, "skill": "炼丹", "character": "活泼好动" },
+            { "name": "元始天尊", "url": "哪吒2/元始天尊.png", "age": 10000, "skill": "仙术", "character": "慈祥, 威严" },
+            { "name": "土拨鼠", "url": "哪吒2/土拨鼠.jpg", "age": 3, "skill": "挖洞", "character": "胆小怕事" },
+            {"name": "太乙真人","url": "哪吒2/太乙真人.jpg", "age": 800, "skill": "仙术, 炼丹", "character": "幽默风趣, 粗心大意"},
+            {"name": "殷夫人","url": "哪吒2/殷夫人.jpg", "age": 35, "skill": "剑术", "character": "温柔贤惠, 坚强勇敢"},
+            {"name": "申小豹","url": "哪吒2/申小豹.jpg", "age": 5, "skill": "模仿", "character": "可爱, 调皮"},
+            {"name": "石矶娘娘","url": "哪吒2/石矶娘娘.jpg", "age": 600, "skill": "法术", "character": "心狠手辣, 阴险狡诈"},
+            {"name": "敖光","url": "哪吒2/敖光.jpg", "age": 1000, "skill": "龙族法术", "character": "威严, 霸道"},
+            {"name": "敖闰","url": "哪吒2/敖闰.jpg", "age": 900, "skill": "龙族法术", "character": "沉稳, 老练"},
+            {"name": "结界兽","url": "哪吒2/结界兽.jpg", "age": 100, "skill": "守护结界", "character": "忠诚, 尽职"},
+            {"name": "海夜叉","url": "哪吒2/海夜叉.jpg", "age": 50, "skill": "水战", "character": "凶狠, 残暴"}
+        ];
+
+        let isRunning = false;
+        let intervalId;
+
+        // 获取模型名称
+        fetch("https://api.openai.com/v1/engines/davinci/completions", { // 替换成你实际的模型API
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer YOUR_API_KEY" // 替换成你的API密钥
+            },
+            body: JSON.stringify({
+                prompt: "你是什么模型,直接返回模型名",
+                max_tokens: 5
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            //modelNameElement.textContent = "模型名称: " + data.choices[0].text.trim();
+            modelNameElement.textContent = "模型名称: GPT-3"; // 模拟模型名称
+        })
+        .catch(error => {
+            console.error("获取模型名称失败:", error);
+            modelNameElement.textContent = "模型名称: 未知";
+        });
+
+        function updateCard() {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            const character = characters[randomIndex];
+            avatar.src = character.url;
+            nameElement.textContent = character.name;
+        }
+
+        function startLottery() {
+            if (!isRunning) {
+                isRunning = true;
+                card.classList.add('shaking');
+                intervalId = setInterval(updateCard, 100);
+            }
+        }
+
+        function stopLottery() {
+            if (isRunning) {
+                isRunning = false;
+                card.classList.remove('shaking');
+                clearInterval(intervalId);
+
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                const selectedCharacter = characters[randomIndex];
+
+                avatar.src = selectedCharacter.url;
+                nameElement.textContent = selectedCharacter.name;
+
+                detailName.textContent = selectedCharacter.name;
+                detailAge.textContent = selectedCharacter.age;
+                detailSkill.textContent = selectedCharacter.skill;
+                detailCharacter.textContent = selectedCharacter.character;
+
+                card.classList.add('highlight');
+                card.style.transform = 'rotateY(180deg)'; // 显示背面
+
+                setTimeout(() => {
+                    card.style.transform = 'rotateY(180deg)';
+                }, 10);
+            }
+        }
+
+        startButton.addEventListener('click', startLottery);
+        stopButton.addEventListener('click', stopLottery);
+    </script>
+</body>
+</html>

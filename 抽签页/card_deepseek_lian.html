@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>玉虚宫抽签系统</title>
+    <style>
+        body {
+            background-color: #87CEEB;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        /* 云朵动画 */
+        .cloud {
+            position: absolute;
+            top: 10%;
+            animation: moveCloud 30s linear infinite;
+        }
+        .cloud1 { left: -20%; width: 150px; height: 100px; background: rgba(255, 255, 255, 0.7); border-radius: 50%; filter: blur(3px); }
+        .cloud2 { left: 30%; width: 180px; height: 120px; background: rgba(255, 255, 255, 0.7); border-radius: 50%; filter: blur(5px); }
+        .cloud3 { left: 60%; width: 200px; height: 140px; background: rgba(255, 255, 255, 0.7); border-radius: 50%; filter: blur(4px); }
+        
+        @keyframes moveCloud {
+            from { left: -20%; }
+            to { left: 100%; }
+        }
+
+        /* 太阳光芒 */
+        .sun {
+            position: absolute;
+            top: 10%;
+            right: 5%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            box-shadow: 0 0 60px 30px rgba(255, 255, 0, 0.6);
+        }
+
+        /* 标题 */
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            color: white;
+        }
+        h2 {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        /* 卡片 */
+        .card {
+            background: white;
+            width: 200px;
+            height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            transform-style: preserve-3d;
+            animation: floatCard 0.5s ease-in-out infinite;
+            text-align: center;
+            padding-top: 50px;
+            position: relative;
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .card-name {
+            font-family: "KaiTi", "隶书", sans-serif;
+            font-size: 2rem;
+            color: red;
+            text-shadow: 2px 2px 4px gold;
+        }
+
+        /* 按钮 */
+        .button {
+            padding: 15px 40px;
+            margin: 20px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        .start-button {
+            background-color: green;
+            color: white;
+        }
+        .stop-button {
+            background-color: red;
+            color: white;
+        }
+
+        /* 卡片信息显示 */
+        .card-info {
+            font-family: "Arial", sans-serif;
+            font-size: 1rem;
+            color: green;
+            text-shadow: 1px 1px 2px white;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes floatCard {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(5deg); }
+            100% { transform: rotateX(0deg); }
+        }
+
+        /* 金色光照效果 */
+        .highlight {
+            box-shadow: 0 0 15px 10px gold;
+            animation: glowEffect 1.5s infinite alternate;
+        }
+
+        @keyframes glowEffect {
+            0% { box-shadow: 0 0 15px 10px gold; }
+            100% { box-shadow: 0 0 30px 20px gold; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 云朵 -->
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+    <div class="cloud cloud3"></div>
+
+    <!-- 太阳 -->
+    <div class="sun"></div>
+
+    <div class="content">
+        <!-- 标题 -->
+        <h1>玉虚宫抽签系统</h1>
+        <h2>当前调用的模型名称：model</h2>
+
+        <!-- 卡片 -->
+        <div class="card" id="card">
+            <img src="哪吒2/哪吒.jpg" alt="人物头像" id="card-image">
+            <div class="card-name" id="card-name">哪吒</div>
+            <div class="card-info" id="card-info"></div>
+        </div>
+
+        <!-- 按钮 -->
+        <button class="button start-button" id="startButton">开始点名</button>
+        <button class="button stop-button" id="stopButton">停止按钮</button>
+    </div>
+
+    <script>
+        const candidates = [
+            { "name": "哪吒", "url": "哪吒2/哪吒.jpg", "age": 16, "skill": "火尖枪", "character": "勇敢" },
+            { "name": "敖丙", "url": "哪吒2/敖丙.jpg", "age": 17, "skill": "水龙珠", "character": "冷静" },
+            { "name": "李靖", "url": "哪吒2/李靖.jpg", "age": 40, "skill": "战术指挥", "character": "聪明" },
+            { "name": "申公豹", "url": "哪吒2/申公豹.jpg", "age": 45, "skill": "邪术", "character": "狡猾" },
+            { "name": "无量仙翁", "url": "哪吒2/无量仙翁.jpg", "age": 100, "skill": "长生不老", "character": "智者" },
+            { "name": "鹤童", "url": "哪吒2/鹤童.jpg", "age": 12, "skill": "飞行", "character": "活泼" },
+            { "name": "鹿童", "url": "哪吒2/鹿童.jpg", "age": 12, "skill": "敏捷", "character": "忠诚" },
+            { "name": "元始天尊", "url": "哪吒2/元始天尊.png", "age": 1000, "skill": "大道法术", "character": "博学" },
+            { "name": "土拨鼠", "url": "哪吒2/土拨鼠.jpg", "age": 8, "skill": "地面穿行", "character": "可爱" },
+            { "name": "太乙真人", "url": "哪吒2/太乙真人.jpg", "age": 200, "skill": "道法", "character": "仁慈" },
+            { "name": "殷夫人", "url": "哪吒2/殷夫人.jpg", "age": 30, "skill": "剑术", "character": "刚烈" },
+            { "name": "申小豹", "url": "哪吒2/申小豹.jpg", "age": 18, "skill": "邪术", "character": "狡猾" },
+            { "name": "石矶娘娘", "url": "哪吒2/石矶娘娘.jpg", "age": 100, "skill": "幻术", "character": "冷静" },
+            { "name": "敖光", "url": "哪吒2/敖光.jpg", "age": 50, "skill": "控制", "character": "傲慢" },
+            { "name": "敖闰", "url": "哪吒2/敖闰.jpg", "age": 40, "skill": "大水法术", "character": "忠诚" },
+            { "name": "结界兽", "url": "哪吒2/结界兽.jpg", "age": 15, "skill": "结界", "character": "勇敢" },
+            { "name": "海夜叉", "url": "哪吒2/海夜叉.jpg", "age": 30, "skill": "海中战斗", "character": "残暴" }
+        ];
+
+        let interval;
+        let currentIndex = 0;
+        const card = document.getElementById("card");
+        const cardImage = document.getElementById("card-image");
+        const cardName = document.getElementById("card-name");
+        const cardInfo = document.getElementById("card-info");
+        const startButton = document.getElementById("startButton");
+        const stopButton = document.getElementById("stopButton");
+
+        // 更新卡片内容
+        function updateCardContent() {
+            const candidate = candidates[currentIndex];
+            cardImage.src = candidate.url;
+            cardName.innerText = candidate.name;
+            cardInfo.innerHTML = `姓名: ${candidate.name}<br>年龄: ${candidate.age}<br>技能: ${candidate.skill}<br>性格: ${candidate.character}`;
+        }
+
+        // 开始点名
+        startButton.addEventListener("click", () => {
+            startButton.disabled = true;
+            stopButton.disabled = false;
+
+            interval = setInterval(() => {
+                currentIndex = Math.floor(Math.random() * candidates.length);
+                updateCardContent();
+                card.classList.add("highlight");
+            }, 100);
+
+            card.classList.add("highlight");
+        });
+
+        // 停止点名
+        stopButton.addEventListener("click", () => {
+            clearInterval(interval);
+            startButton.disabled = false;
+            stopButton.disabled = true;
+
+            card.classList.remove("highlight");
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>玉虚宫抽签系统</title>
+    <style>
+        body {
+            background-color: skyblue;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+       .cloud {
+            position: absolute;
+            width: 100px;
+            height: 60px;
+            background-color: white;
+            border-radius: 50px;
+            filter: blur(5px);
+            animation: moveCloud 15s linear infinite;
+        }
+
+        @keyframes moveCloud {
+            from {
+                left: -100px;
+            }
+
+            to {
+                left: 100%;
+            }
+        }
+
+       .sun {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            background-color: yellow;
+            border-radius: 50%;
+            filter: blur(10px);
+            box-shadow: 0 0 50px 20px yellow;
+        }
+
+       .title {
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+            margin-top: 50px;
+        }
+
+       .model-name {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+       .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+       .card {
+            width: calc(16.666% - 20px);
+            margin: 10px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateY(0deg);
+            animation: shake 2s ease-in-out infinite alternate;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: perspective(1000px) rotateY(-5deg);
+            }
+
+            100% {
+                transform: perspective(1000px) rotateY(5deg);
+            }
+        }
+
+       .card img {
+            width: 100%;
+            height: auto;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            object-fit: cover;
+        }
+
+       .card-name {
+            font-family: '隶书', serif;
+            font-size: 24px;
+            color: red;
+            -webkit-text-stroke: 1px gold;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+       .card-info {
+            font-family: '微软雅黑', sans-serif;
+            font-size: 16px;
+            color: green;
+            -webkit-text-stroke: 1px white;
+            padding: 10px;
+        }
+
+       .card:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px 10px gold;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 云朵 -->
+    <div class="cloud" style="top: 50px;"></div>
+    <div class="cloud" style="top: 150px;"></div>
+    <div class="cloud" style="top: 250px;"></div>
+    <!-- 太阳 -->
+    <div class="sun"></div>
+    <!-- 标题 -->
+    <div class="title">【玉虚宫抽签系统】</div>
+    <!-- 模型名称 -->
+    <div class="model-name">model</div>
+    <!-- 卡片容器 -->
+    <div class="card-container">
+        <!-- 候选人物卡片 -->
+        <div class="card">
+            <img src="哪吒2/哪吒.jpg" alt="哪吒">
+            <div class="card-name">哪吒</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 三头八臂、混天绫、乾坤圈等<br>
+                性格: 勇敢、叛逆、重情重义
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/敖丙.jpg" alt="敖丙">
+            <div class="card-name">敖丙</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 龙鳞甲、冰龙枪等<br>
+                性格: 善良、隐忍、有责任感
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/敖光.jpg" alt="敖光">
+            <div class="card-name">敖光</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 行云布雨等<br>
+                性格: 威严、固执、爱面子
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/敖闰.jpg" alt="敖闰">
+            <div class="card-name">敖闰</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 行云布雨等<br>
+                性格: 沉稳、睿智、有谋略
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/李靖.jpg" alt="李靖">
+            <div class="card-name">李靖</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 玲珑宝塔等<br>
+                性格: 正直、传统、有些固执
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/申公豹.jpg" alt="申公豹">
+            <div class="card-name">申公豹</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 移山填海、召唤妖邪等<br>
+                性格: 阴险、嫉妒、不择手段
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/无量仙翁.jpg" alt="无量仙翁">
+            <div class="card-name">无量仙翁</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 仙法、医术等<br>
+                性格: 和蔼、善良、慈悲为怀
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/鹤童.jpg" alt="鹤童">
+            <div class="card-name">鹤童</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 仙法、飞行等<br>
+                性格: 天真、活泼、善良
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/鹿童.jpg" alt="鹿童">
+            <div class="card-name">鹿童</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 仙法、奔跑等<br>
+                性格: 憨厚、老实、忠诚
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/元始天尊.png" alt="元始天尊">
+            <div class="card-name">元始天尊</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 无上仙法、开天辟地等<br>
+                性格: 威严、公正、慈悲为怀
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/土拨鼠.jpg" alt="土拨鼠">
+            <div class="card-name">土拨鼠</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 打洞、挖掘等<br>
+                性格: 胆小、机灵、可爱
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/太乙真人.jpg" alt="太乙真人">
+            <div class="card-name">太乙真人</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 仙法、炼丹等<br>
+                性格: 随性、豁达、善良
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/殷夫人.jpg" alt="殷夫人">
+            <div class="card-name">殷夫人</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 武功、持家等<br>
+                性格: 温柔、坚强、疼爱子女
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/申小豹.jpg" alt="申小豹">
+            <div class="card-name">申小豹</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 未知<br>
+                性格: 未知
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/石矶娘娘.jpg" alt="石矶娘娘">
+            <div class="card-name">石矶娘娘</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 妖法、操控石头等<br>
+                性格: 阴险、毒辣、心狠手辣
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/结界兽.jpg" alt="结界兽">
+            <div class="card-name">结界兽</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 守护结界、攻击等<br>
+                性格: 忠诚、勇敢、憨厚
+            </div>
+        </div>
+        <div class="card">
+            <img src="哪吒2/海夜叉.jpg" alt="海夜叉">
+            <div class="card-name">海夜叉</div>
+            <div class="card-info">
+                年龄: 未知<br>
+                技能: 水遁、使用武器等<br>
+                性格: 凶狠、残暴、贪婪
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

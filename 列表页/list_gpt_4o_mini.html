@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>玉虚宫抽签系统</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #87CEEB; /* 天蓝色背景 */
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* 云朵漂浮效果 */
+    .cloud {
+      position: absolute;
+      top: 20%;
+      opacity: 0.6;
+      background: url('cloud.png') no-repeat;
+      background-size: cover;
+      width: 200px;
+      height: 120px;
+      animation: moveClouds 15s linear infinite;
+    }
+
+    @keyframes moveClouds {
+      from {
+        left: -200px;
+      }
+      to {
+        left: 100%;
+      }
+    }
+
+    /* 太阳 */
+    .sun {
+      position: absolute;
+      top: 5%;
+      right: 5%;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 204, 0, 0.7) 50%, rgba(255, 255, 255, 0.3) 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 50px rgba(255, 255, 0, 0.5);
+    }
+
+    /* 标题 */
+    .title {
+      text-align: center;
+      font-size: 48px;
+      font-weight: bold;
+      color: white;
+      margin-top: 100px;
+    }
+
+    .model-name {
+      text-align: center;
+      font-size: 24px;
+      color: white;
+    }
+
+    /* 卡片容器 */
+    .cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 50px;
+    }
+
+    .card {
+      background: white;
+      width: 200px;
+      height: 300px;
+      margin: 20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      transform-style: preserve-3d;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+    }
+
+    /* 卡片内容 */
+    .card img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .card-info {
+      padding: 10px;
+      text-align: center;
+    }
+
+    .card-info .name {
+      font-family: "隶书", sans-serif;
+      font-size: 30px;
+      color: red;
+      text-shadow: 1px 1px 2px gold;
+    }
+
+    .card-info .field {
+      font-family: "Yahei", sans-serif;
+      font-size: 16px;
+      color: green;
+      text-shadow: 1px 1px 2px white;
+      margin-top: 5px;
+    }
+
+    /* 云朵随机位置 */
+    .cloud:nth-child(odd) {
+      animation-duration: 20s;
+    }
+
+    .cloud:nth-child(even) {
+      animation-duration: 25s;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- 太阳 -->
+  <div class="sun"></div>
+
+  <!-- 云朵 -->
+  <div class="cloud" style="top: 10%; left: 10%;"></div>
+  <div class="cloud" style="top: 15%; left: 30%;"></div>
+  <div class="cloud" style="top: 5%; left: 50%;"></div>
+  <div class="cloud" style="top: 20%; left: 70%;"></div>
+  <div class="cloud" style="top: 30%; left: 90%;"></div>
+
+  <!-- 标题和模型名称 -->
+  <div class="title">玉虚宫抽签系统</div>
+  <div class="model-name" id="modelName">模型名称: model</div>
+
+  <!-- 卡片容器 -->
+  <div class="cards-container" id="cardsContainer">
+    <!-- 动态卡片生成 -->
+  </div>
+
+  <script>
+    // 模型名称
+    const model = "玉虚宫模型";
+
+    // 人物数据
+    const candidates = [
+      { "name": "哪吒", "url": "哪吒2/哪吒.jpg", "age": 16, "skill": "火焰轮", "character": "勇敢" },
+      { "name": "敖丙", "url": "哪吒2/敖丙.jpg", "age": 18, "skill": "龙族之力", "character": "深沉" },
+      { "name": "敖光", "url": "哪吒2/敖光.jpg", "age": 50, "skill": "天雷", "character": "仁慈" },
+      { "name": "敖闰", "url": "哪吒2/敖闰.jpg", "age": 40, "skill": "水神之力", "character": "智慧" },
+      { "name": "李靖", "url": "哪吒2/李靖.jpg", "age": 45, "skill": "天宫战术", "character": "果敢" },
+      { "name": "申公豹", "url": "哪吒2/申公豹.jpg", "age": 38, "skill": "变化无穷", "character": "狡诈" },
+      { "name": "无量仙翁", "url": "哪吒2/无量仙翁.jpg", "age": 100, "skill": "时空穿梭", "character": "神秘" },
+      { "name": "鹤童", "url": "哪吒2/鹤童.jpg", "age": 16, "skill": "飞翔", "character": "忠诚" },
+      { "name": "鹿童", "url": "哪吒2/鹿童.jpg", "age": 16, "skill": "角力", "character": "活泼" },
+      { "name": "元始天尊", "url": "哪吒2/元始天尊.png", "age": 200, "skill": "创世之力", "character": "威严" },
+      { "name": "土拨鼠", "url": "哪吒2/土拨鼠.jpg", "age": 22, "skill": "地洞探测", "character": "幽默" },
+      { "name": "太乙真人", "url": "哪吒2/太乙真人.jpg", "age": 70, "skill": "法术掌控", "character": "睿智" },
+      { "name": "殷夫人", "url": "哪吒2/殷夫人.jpg", "age": 30, "skill": "心灵感应", "character": "温柔" },
+      { "name": "申小豹", "url": "哪吒2/申小豹.jpg", "age": 20, "skill": "豹化", "character": "机智" },
+      { "name": "石矶娘娘", "url": "哪吒2/石矶娘娘.jpg", "age": 50, "skill": "毒术", "character": "阴狠" },
+      { "name": "结界兽", "url": "哪吒2/结界兽.jpg", "age": 30, "skill": "空间封锁", "character": "神秘" },
+      { "name": "海夜叉", "url": "哪吒2/海夜叉.jpg", "age": 40, "skill": "海洋操控", "character": "凶猛" }
+    ];
+
+    // 填充模型名称
+    document.getElementById('modelName').innerHTML = "模型名称: " + model;
+
+    // 创建卡片
+    const cardsContainer = document.getElementById('cardsContainer');
+    candidates.forEach(candidate => {
+      const card = document.createElement('div');
+      card.classList.add('card');
+
+      const img = document.createElement('img');
+      img.src = candidate.url;
+      img.alt = candidate.name;
+
+      const cardInfo = document.createElement('div');
+      cardInfo.classList.add('card-info');
+
+      const name = document.createElement('div');
+      name.classList.add('name');
+      name.innerText = candidate.name;
+
+      const age = document.createElement('div');
+      age.classList.add('field');
+      age.innerText = "年龄: " + candidate.age;
+
+      const skill = document.createElement('div');
+      skill.classList.add('field');
+      skill.innerText = "技能: " + candidate.skill;
+
+      const character = document.createElement('div');
+      character.classList.add('field');
+      character.innerText = "性格: " + candidate.character;
+
+      cardInfo.appendChild(name);
+      cardInfo.appendChild(age);
+      cardInfo.appendChild(skill);
+      cardInfo.appendChild(character);
+      
+      card.appendChild(img);
+      card.appendChild(cardInfo);
+
+      cardsContainer.appendChild(card);
+
+      card.addEventListener('click', () => {
+        card.style.transform = 'scale(1.2)';
+        card.style.boxShadow = '0 0 80px rgba(255, 215, 0, 0.8)';
+        setTimeout(() => {
+          card.style.transform = '';
+          card.style.boxShadow = '';
+        }, 500);
+      });
+    });
+  </script>
+</body>
+</html>

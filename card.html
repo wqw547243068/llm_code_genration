@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>玉虚宫抽签系统</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(to bottom, #87CEEB, #B0E0E6);
+            overflow: hidden;
+        }
+
+        /* 云朵动画 <a target="_blank" href="https://blog.csdn.net/weixin_43865714/article/details/144660925" class="hitref" data-title="HTML随机点名_随机点名html-CSDN博客" data-snippet='HTML随机点名系统、抽奖系统、JS、随机点名代码 TCLLod的博客 1800 一个简简单单的抽签界面,可用作抽奖、抽签、点名、抓阄。完全随机,公平公正。随机点名系统网页版--适用...' data-url="https://blog.csdn.net/weixin_43865714/article/details/144660925">1</a> */
+        .cloud {
+            position: absolute;
+            width: 150px;
+            height: 60px;
+            background: white;
+            border-radius: 50px;
+            filter: blur(8px);
+            animation: cloudMove 20s linear infinite;
+        }
+        @keyframes cloudMove {
+            from { left: -200px; }
+            to { left: 100%; }
+        }
+
+        /* 太阳样式 */
+        .sun {
+            position: absolute;
+            right: 50px;
+            top: 50px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(#FFD700, #FFA500);
+            border-radius: 50%;
+            box-shadow: 0 0 50px 20px rgba(255,215,0,0.3);
+        }
+
+        /* 卡片样式 */
+        .card {
+            position: relative;
+            width: 300px;
+            height: 450px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform-style: preserve-3d;
+            transition: all 0.3s;
+        }
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 0 30px gold;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        /* 按钮样式 */
+        .controls {
+            position: absolute;
+            right: 100px;
+            top: 300px;
+        }
+        button {
+            display: block;
+            width: 120px;
+            height: 50px;
+            margin: 20px;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        #startBtn { background: #4CAF50; }
+        #stopBtn { background: #F44336; }
+        
+        /* 文字样式 */
+        .name {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-family: 'LiSu', cursive;
+            font-size: 32px;
+            color: red;
+            text-shadow: 1px 1px 2px gold;
+            z-index: 2;
+        }
+        
+        /* 动画效果 */
+        .shaking {
+            animation: shake 0.15s infinite;
+        }
+        @keyframes shake {
+            0% { transform: rotate(-1deg); }
+            50% { transform: rotate(1deg); }
+            100% { transform: rotate(-1deg); }
+        }
+        
+        .selected {
+            transform: scale(1.1);
+        }
+        .selected::after {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- 动态生成云朵 -->
+    <script>
+        for(let i=0; i<5; i++) {
+            const cloud = document.createElement('div');
+            cloud.className = 'cloud';
+            cloud.style.top = Math.random() * 80 + '%';
+            cloud.style.animationDelay = Math.random() * 20 + 's';
+            document.body.appendChild(cloud);
+        }
+    </script>
+
+    <div class="sun"></div>
+    <h1 style="text-align:center;font-size:40px;margin:20px">玉虚宫抽签系统</h1>
+    <div style="text-align:center">model: 混元大模型 v2.3</div>
+    
+    <div class="card" id="card">
+        <img id="avatar" src="哪吒2/电影.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:15px">
+        <div class="name" id="nameDisplay">人物姓名</div>
+    </div>
+
+    <div class="controls">
+        <button id="startBtn" onclick="startLottery()">开始点名</button>
+        <button id="stopBtn" onclick="stopLottery()">停止抽签</button>
+    </div>
+
+    <script>
+        const characters = [
+            { "name": "哪吒", "url": "哪吒2/哪吒.jpg" },
+            // ...其他人物数据...
+        ];
+
+        let intervalId;
+        let isRunning = false;
+
+        function startLottery() {
+            if(isRunning) return;
+            isRunning = true;
+            document.getElementById('card').classList.add('shaking');
+            
+            intervalId = setInterval(() => {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                const current = characters[randomIndex];
+                document.getElementById('avatar').src = current.url;
+                document.getElementById('nameDisplay').textContent = current.name;
+            }, 100);
+        }
+
+        function stopLottery() {
+            clearInterval(intervalId);
+            isRunning = false;
+            document.getElementById('card').classList.remove('shaking');
+            document.getElementById('card').classList.add('selected');
+            
+            // 显示详细信息（示例）
+            setTimeout(() => {
+                const infoDiv = document.createElement('div');
+                infoDiv.innerHTML = `
+                    <div style="position:absolute;top:20px;left:20px;color:green">
+                        <p>年龄：未知</p>
+                        <p>技能：三头六臂</p>
+                        <p>性格：叛逆</p>
+                    </div>
+                `;
+                document.getElementById('card').appendChild(infoDiv);
+            }, 500);
+        }
+    </script>
+</body>
+</html>

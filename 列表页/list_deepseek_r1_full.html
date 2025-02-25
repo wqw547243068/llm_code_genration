@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>玉虚宫抽签系统</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 100px 0;
+            min-height: 200vh;
+            background: linear-gradient(to bottom, #87CEEB, #E0F6FF);
+            font-family: 'Microsoft YaHei', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .sun {
+            position: fixed;
+            top: 50px;
+            right: 50px;
+            width: 60px;
+            height: 60px;
+            background: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 50px 20px rgba(255, 215, 0, 0.4);
+            animation: sun-glow 2s infinite alternate;
+        }
+
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            filter: blur(20px);
+            animation: cloud-move 20s linear infinite;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 3em;
+            font-weight: bold;
+            color: #2E2E2E;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .model {
+            font-size: 1.5em;
+            color: #4B4B4B;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            position: relative;
+            aspect-ratio: 2/3;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform-style: preserve-3d;
+            transition: all 0.3s;
+            animation: float 3s ease-in-out infinite;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: scale(1.05) rotateZ(2deg);
+            box-shadow: 0 0 30px 10px gold;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 70%;
+            object-fit: cover;
+            border-bottom: 2px solid gold;
+        }
+
+        .name {
+            position: absolute;
+            bottom: 30%;
+            width: 100%;
+            text-align: center;
+            font-family: 'LiSu', cursive;
+            font-size: 1.8em;
+            color: #FF0000;
+            text-shadow: 0 0 5px gold;
+            padding: 5px 0;
+            background: linear-gradient(transparent 0%, rgba(255,215,0,0.3) 100%);
+        }
+
+        .info {
+            padding: 10px;
+            font-size: 1.1em;
+            color: #228B22;
+            text-shadow: 0 0 2px white;
+        }
+
+        @keyframes cloud-move {
+            from { left: -200px; }
+            to { left: 100%; }
+        }
+
+        @keyframes sun-glow {
+            from { box-shadow: 0 0 50px 20px rgba(255, 215, 0, 0.4); }
+            to { box-shadow: 0 0 70px 30px rgba(255, 215, 0, 0.6); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateZ(0deg); }
+            50% { transform: translateY(-10px) rotateZ(1deg); }
+        }
+
+        /* 生成随机云朵 */
+        .cloud:nth-child(1) { top: 15%; width: 120px; height: 60px; animation-duration: 25s; }
+        .cloud:nth-child(2) { top: 30%; width: 150px; height: 80px; animation-duration: 30s; }
+        .cloud:nth-child(3) { top: 45%; width: 100px; height: 50px; animation-duration: 28s; }
+    </style>
+</head>
+<body>
+    <!-- 太阳 -->
+    <div class="sun"></div>
+
+    <!-- 云朵 -->
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+
+    <!-- 标题 -->
+    <div class="title">
+        <h1>玉虚宫抽签系统</h1>
+        <div class="model">当前模型：混元无极AI 3.0</div>
+    </div>
+
+    <!-- 卡片容器 -->
+    <div class="container">
+        <script>
+            const candidate = [
+                { "name": "哪吒", "url": "哪吒2/哪吒.jpg", age: 3, skill: "三头六臂", character: "顽皮" },
+                { "name": "敖丙", "url": "哪吒2/敖丙.jpg", age: 500, skill: "冰封千里", character: "冷静" },
+                { "name": "敖光", "url": "哪吒2/敖光.jpg", age: 2000, skill: "呼风唤雨", character: "威严" },
+                { "name": "敖闰", "url": "哪吒2/敖闰.jpg", age: 1800, skill: "龙族秘法", character: "睿智" },
+                { "name": "李靖", "url": "哪吒2/李靖.jpg", age: 35, skill: "玲珑宝塔", character: "正直" },
+                { "name": "申公豹", "url": "哪吒2/申公豹.jpg", age: 800, skill: "移魂大法", character: "狡诈" },
+                { "name": "无量仙翁", "url": "哪吒2/无量仙翁.jpg", age: 5000, skill: "炼丹术", character: "慈祥" },
+                { "name": "鹤童", "url": "哪吒2/鹤童.jpg", age: 300, skill: "御鹤飞行", character: "机灵" },
+                { "name": "鹿童", "url": "哪吒2/鹿童.jpg", age: 280, skill: "治愈术", character: "温和" },
+                { "name": "元始天尊", "url": "哪吒2/元始天尊.png", age: 10000, skill: "开天辟地", character: "威严" },
+                { "name": "土拨鼠", "url": "哪吒2/土拨鼠.jpg", age: 2, skill: "打洞", character: "呆萌" },
+                { "name": "太乙真人", "url": "哪吒2/太乙真人.jpg", age: 1200, skill: "法宝炼制", character: "幽默" },
+                { "name": "殷夫人", "url": "哪吒2/殷夫人.jpg", age: 30, skill: "武术", character: "刚强" },
+                { "name": "申小豹", "url": "哪吒2/申小豹.jpg", age: 50, skill: "快速移动", character: "狡猾" },
+                { "name": "石矶娘娘", "url": "哪吒2/石矶娘娘.jpg", age: 3000, skill: "石化术", character: "阴险" },
+                { "name": "结界兽", "url": "哪吒2/结界兽.jpg", age: 800, skill: "空间结界", character: "忠诚" },
+                { "name": "海夜叉", "url": "哪吒2/海夜叉.jpg", age: 400, skill: "水遁术", character: "凶恶" }
+            ];
+
+            const container = document.querySelector('.container');
+            
+            candidate.forEach(char => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${char.url}" class="avatar">
+                    <div class="name">${char.name}</div>
+                    <div class="info">
+                        <div>年龄：${char.age}岁</div>
+                        <div>技能：${char.skill}</div>
+                        <div>性格：${char.character}</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        </script>
+    </div>
+</body>
+</html>

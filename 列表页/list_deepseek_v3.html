@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>玉虚宫抽签系统</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #87CEEB;
+            overflow-x: hidden;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        .cloud {
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            filter: blur(20px);
+            animation: float 10s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-200px); }
+            100% { transform: translateX(100vw); }
+        }
+
+        .sun {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            background: yellow;
+            border-radius: 50%;
+            filter: blur(10px);
+            box-shadow: 0 0 50px 20px yellow;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: black;
+            margin-top: 20px;
+        }
+
+        .model {
+            text-align: center;
+            font-size: 24px;
+            color: black;
+            margin-top: 10px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 50px;
+            padding: 20px;
+        }
+
+        .card {
+            width: 150px;
+            height: 200px;
+            margin: 10px;
+            perspective: 1000px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            background: white;
+        }
+
+        .card:hover .card-inner {
+            transform: rotateY(10deg) rotateX(10deg);
+            box-shadow: 0 0 20px 10px gold;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .card .name {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'LiSu', serif;
+            font-size: 24px;
+            color: red;
+            text-shadow: 1px 1px 2px gold;
+        }
+
+        .card .info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 16px;
+            color: green;
+            text-shadow: 1px 1px 2px white;
+        }
+
+        .card.expanded {
+            transform: scale(1.5);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="cloud" style="top: 50px; animation-duration: 15s;"></div>
+    <div class="cloud" style="top: 200px; animation-duration: 20s;"></div>
+    <div class="cloud" style="top: 350px; animation-duration: 25s;"></div>
+    <div class="sun"></div>
+
+    <div class="title">玉虚宫抽签系统</div>
+    <div class="model">模型: model</div>
+
+    <div class="card-container">
+        <script>
+            const candidate = [
+                { "name": "哪吒", "url": "哪吒2/哪吒.jpg" },
+                { "name": "敖丙", "url": "哪吒2/敖丙.jpg" },
+                { "name": "敖光", "url": "哪吒2/敖光.jpg" },
+                { "name": "敖闰", "url": "哪吒2/敖闰.jpg" },
+                { "name": "李靖", "url": "哪吒2/李靖.jpg" },
+                { "name": "申公豹", "url": "哪吒2/申公豹.jpg" },
+                { "name": "无量仙翁", "url": "哪吒2/无量仙翁.jpg" },
+                { "name": "鹤童", "url": "哪吒2/鹤童.jpg" },
+                { "name": "鹿童", "url": "哪吒2/鹿童.jpg" },
+                { "name": "元始天尊", "url": "哪吒2/元始天尊.png" },
+                { "name": "土拨鼠", "url": "哪吒2/土拨鼠.jpg" },
+                { "name": "太乙真人", "url": "哪吒2/太乙真人.jpg" },
+                { "name": "殷夫人", "url": "哪吒2/殷夫人.jpg" },
+                { "name": "申小豹", "url": "哪吒2/申小豹.jpg" },
+                { "name": "石矶娘娘", "url": "哪吒2/石矶娘娘.jpg" },
+                { "name": "结界兽", "url": "哪吒2/结界兽.jpg" },
+                { "name": "海夜叉", "url": "哪吒2/海夜叉.jpg" }
+            ];
+
+            const cardContainer = document.querySelector('.card-container');
+
+            candidate.forEach(person => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                const cardInner = document.createElement('div');
+                cardInner.className = 'card-inner';
+
+                const img = document.createElement('img');
+                img.src = person.url;
+                img.alt = person.name;
+
+                const name = document.createElement('div');
+                name.className = 'name';
+                name.textContent = person.name;
+
+                const info = document.createElement('div');
+                info.className = 'info';
+                info.innerHTML = `年龄: 未知<br>技能: 未知<br>性格: 未知`;
+
+                cardInner.appendChild(img);
+                cardInner.appendChild(name);
+                cardInner.appendChild(info);
+                card.appendChild(cardInner);
+                cardContainer.appendChild(card);
+
+                card.addEventListener('click', () => {
+                    card.classList.toggle('expanded');
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>

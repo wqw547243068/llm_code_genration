@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>玉虚宫抽签系统</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #87CEEB;
+            overflow: hidden;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            filter: blur(15px);
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            from { left: -20%; }
+            to { left: 120%; }
+        }
+
+        #sun {
+            position: absolute;
+            right: 50px;
+            top: 50px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(#FFD700 30%, #FFA500);
+            border-radius: 50%;
+            filter: blur(2px);
+            box-shadow: 0 0 50px 20px #FFD700;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            text-shadow: 2px 2px 4px white;
+            margin: 20px 0 10px;
+        }
+
+        .card-container {
+            position: relative;
+            width: 300px;
+            height: 450px;
+            margin: 20px auto;
+            perspective: 1000px;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.5s;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2),
+                        0 0 30px gold;
+            overflow: hidden;
+        }
+
+        .card.shake {
+            animation: shake 0.1s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: rotate(-1deg); }
+            50% { transform: rotate(1deg); }
+            100% { transform: rotate(-1deg); }
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .name {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-family: 'LiSu', cursive;
+            font-size: 2em;
+            color: red;
+            text-shadow: 0 0 5px gold,
+                        -1px -1px 0 gold,
+                        1px -1px 0 gold,
+                        -1px 1px 0 gold,
+                        1px 1px 0 gold;
+        }
+
+        .buttons {
+            position: absolute;
+            right: 20%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        #start {
+            background: linear-gradient(#2ecc71, #27ae60);
+        }
+
+        #stop {
+            background: linear-gradient(#e74c3c, #c0392b);
+        }
+
+        .info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #2ecc71;
+            font-size: 1.2em;
+            text-shadow: 0 0 2px white;
+        }
+    </style>
+</head>
+<body>
+    <div id="sun"></div>
+    <h1 class="title">玉虚宫抽签系统</h1>
+    <h2 class="title" id="model">玉虚宫抽签模型V1.0</h2>
+    
+    <div class="card-container">
+        <div class="card">
+            <img src="哪吒2/电影.jpg" alt="当前人物">
+            <div class="name">人物姓名</div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button id="start">开始点名</button>
+        <button id="stop">停止抽签</button>
+    </div>
+
+    <script>
+        const characters = [
+            { "name": "哪吒", "url": "哪吒2/哪吒.jpg",
+              "age": "12岁", "skill": "混天绫、火尖枪", "character": "勇敢叛逆" },
+            // 其他人物数据类似，此处省略...
+        ];
+
+        const card = document.querySelector('.card');
+        const nameDisplay = document.querySelector('.name');
+        const img = card.querySelector('img');
+        let intervalId;
+        let currentIndex = 0;
+
+        // 初始化云朵
+        function createClouds() {
+            for(let i=0; i<5; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud';
+                cloud.style.cssText = `
+                    width: ${Math.random()*150 + 50}px;
+                    height: ${Math.random()*80 + 40}px;
+                    top: ${Math.random()*80}%;
+                    animation-delay: ${Math.random()*20}s;
+                    opacity: ${Math.random()*0.7 + 0.3};
+                `;
+                document.body.appendChild(cloud);
+            }
+        }
+
+        document.getElementById('start').addEventListener('click', () => {
+            card.classList.add('shake');
+            intervalId = setInterval(() => {
+                currentIndex = Math.floor(Math.random() * characters.length);
+                updateCard();
+            }, 100);
+        });
+
+        document.getElementById('stop').addEventListener('click', () => {
+            clearInterval(intervalId);
+            card.classList.remove('shake');
+            showDetails();
+        });
+
+        function updateCard() {
+            img.src = characters[currentIndex].url;
+            nameDisplay.textContent = characters[currentIndex].name;
+        }
+
+        function showDetails() {
+            const info = characters[currentIndex];
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'info';
+            infoDiv.innerHTML = `
+                <p>年龄：${info.age}</p>
+                <p>法宝：${info.skill}</p>
+                <p>性格：${info.character}</p>
+            `;
+            
+            card.appendChild(infoDiv);
+            card.style.transform = 'scale(1.1) rotateY(10deg)';
+            card.style.boxShadow = '0 0 40px gold';
+        }
+
+        createClouds();
+    </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>玉虚宫抽签系统</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #87CEEB;
+            overflow-x: hidden;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        /* 云朵动画 */
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 20px;
+            filter: blur(5px);
+            animation: float 20s linear infinite;
+        }
+        @keyframes float {
+            from { left: -200px; }
+            to { left: 100%; }
+        }
+
+        /* 太阳效果 */
+        .sun {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(#FFD700, #FFA500);
+            border-radius: 50%;
+            box-shadow: 0 0 50px #FFD700;
+            animation: shine 2s infinite;
+        }
+        @keyframes shine {
+            50% { box-shadow: 0 0 70px #FFD700; }
+        }
+
+        /* 标题样式 */
+        .title {
+            text-align: center;
+            margin: 20px 0;
+        }
+        h1 {
+            font-size: 3em;
+            font-weight: bold;
+            color: #2c3e50;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        #model {
+            font-size: 1.5em;
+            color: #34495e;
+        }
+
+        /* 卡片容器 */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 卡片样式 */
+        .card {
+            position: relative;
+            background: white;
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform-style: preserve-3d;
+            transition: all 0.3s;
+            cursor: pointer;
+            animation: sway 3s ease-in-out infinite;
+        }
+        @keyframes sway {
+            50% { transform: rotateZ(1deg) translateY(-5px); }
+        }
+
+        .card:hover {
+            transform: scale(1.05) rotateZ(1deg);
+            box-shadow: 0 0 30px gold;
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .name {
+            font-family: 'LiSu', cursive;
+            font-size: 1.8em;
+            color: #c0392b;
+            text-shadow: 1px 1px 2px gold;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .info {
+            font-size: 1.1em;
+            color: #27ae60;
+            line-height: 1.5;
+            text-shadow: 0 0 2px white;
+        }
+    </style>
+</head>
+<body>
+    <!-- 动态云朵 -->
+    <div class="cloud" style="top:20%; width:120px; height:60px;"></div>
+    <div class="cloud" style="top:40%; width:150px; height:80px;"></div>
+    <div class="cloud" style="top:60%; width:100px; height:50px;"></div>
+
+    <!-- 太阳 -->
+    <div class="sun"></div>
+
+    <!-- 标题 -->
+    <div class="title">
+        <h1>玉虚宫抽签系统</h1>
+        <div id="model">当前模型：GPT-4</div>
+    </div>
+
+    <!-- 卡片容器 -->
+    <div class="card-container">
+        <script>
+            const candidate = [
+                { "name": "哪吒", "url": "哪吒2/哪吒.jpg", age: "12岁", skill: "混天绫、风火轮", character: "叛逆勇敢" },
+                // 其他人物数据（需补充完整字段）
+                { "name": "敖丙", "url": "哪吒2/敖丙.jpg", age: "未知", skill: "冰系法术", character: "冷静沉着" }
+            ];
+
+            candidate.forEach(char => {
+                document.write(`
+                    <div class="card">
+                        <img src="${char.url}" alt="${char.name}">
+                        <div class="name">${char.name}</div>
+                        <div class="info">
+                            年龄：${char.age}<br>
+                            技能：${char.skill}<br>
+                            性格：${char.character}
+                        </div>
+                    </div>
+                `);
+            });
+        </script>
+    </div>
+</body>
+</html>
