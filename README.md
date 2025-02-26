@@ -1,12 +1,93 @@
-# llm_code_genration
-
-大模型代码生成
 
 
+# 大模型代码生成
 
-# 提示语集合
+llm_code_genration
+- [公众号](https://mp.weixin.qq.com/s/jbbTPy_zkZIfRUH8wjkSGA) 含演示视频
+- [知乎](https://zhuanlan.zhihu.com/p/26477848381)
 
-## 小红书单词卡
+## 模型
+
+参赛模型
+- DeepSeek 等多种模型
+- 以 AskManyAI 上免费模型为准
+
+![](https://pica.zhimg.com/v2-160f1c31cba75d5aebd283363578ff74_1440w.jpg)
+
+![](https://pic3.zhimg.com/v2-05b9ad48fab585bce59a638b3e9a904c_1440w.jpg)
+
+
+## 评估
+
+评估维度：
+- 功能完整度
+- 页面美观度
+- 数据准确性
+- 自我认知
+
+
+## 总结
+
+
+### 玉虚宫列表页
+
+总结（60分及格，低分不计入榜单）
+- 功能完成度：OpenAI o3-mini＞GPT-4o-mini=DeepSeek R1满血版＞DeepSeek V3＞Gemini-2 Flash
+- 页面美观度：OpenAI o3-min=DeepSeek R1满血版＞DeepSeek R1联网版＞GPT-4o-mini＞Gemini-2 Flash
+- 数据准确度：DeepSeek V3＞DeepSeek R1联网版＞OpenAI o3-mini＞＞Gemini-2 Flash＞GPT-4o-mini=DeepSeek R1满血版＞豆包 1.5-Pro
+- 自我认知：全部失败，只有DeepSeek能报出模型名（不过是GPT-4）
+
+整体：openai系列模型与DeepSeek靠前，OpenAI o3-mini≈DeepSeek R1
+
+![](https://pic4.zhimg.com/v2-47a801dd0921b9877bc311ff3b8f19cb_1440w.jpg)
+
+
+### 玉虚宫抽签页
+
+总结（60分及格，低分不计入榜单）
+- 功能完成度：DeepSeek V3＞Gemini-2 Flash＞豆包 1.5-Pro＞OpenAI o3-mini
+- 页面美观度：DeepSeek V3＞DeepSeek R1满血版=DeepSeek R1联网版=Gemini-2 Flash＞豆包 1.5-Pro
+- 数据准确度：DeepSeek R1满血版=豆包 1.5-Pro＞DeepSeek R1联网版=OpenAI o3-mini=Gemini-2 Flash＞GPT-4o-mini
+- 自我认知：全部失败，只有DeepSeek能报出模型名（不过是GPT-4）
+
+整体：DeepSeek V3强于DeepSeek R1=openai系列
+
+![](https://pic1.zhimg.com/v2-2185f2f980835b7e02b5b4c27b9ec736_1440w.jpg)
+
+## 效果
+
+页面效果展示
+
+
+### 单词本
+
+![](https://pic2.zhimg.com/v2-c91fcf9d062749ce2cbeda60d63e1ca9_1440w.jpg)
+
+### 简易抽签系统
+
+
+![](https://pica.zhimg.com/v2-c759f5bb8d802e77535408b25dba32a0_1440w.jpg)
+
+
+### 玉虚宫
+
+![](https://pic4.zhimg.com/v2-25d22a39f6ea4e3758ec3e4ba0e02241_1440w.jpg)
+
+#### 玉虚宫列表页
+
+![](https://pic3.zhimg.com/v2-33af0b5f909f7d66818f62fdb33c1ce8_1440w.jpg)
+
+![](https://pic3.zhimg.com/v2-a67535d1414a1fecb51cb8ea6312b37c_1440w.jpg)
+
+#### 玉虚宫抽签页
+
+![](https://pic2.zhimg.com/v2-1bad31a7a7c32c955c73fc5c7317d4d3_1440w.jpg)
+
+![](https://picx.zhimg.com/v2-cca9b598c549fc1dd2896a4f5a333d73_1440w.jpg)
+
+## 提示语集合
+
+### 小红书单词卡
 
 ```md
 生成一段html,js代码，实现功能：逐项卡片展示数组a里的项目
@@ -14,10 +95,10 @@
 数据：国内常用网络用语，每个短语包含字段：中文短语、英文短语、英文解释；以 javascript list 输出, 示例 [['a', 'a', 'a']]；注意：只输出代码，不要解释
 ````
 
-## 玉虚宫抽签系统
+### 玉虚宫抽签系统
 
 
-### 列表页
+#### 列表页
 
 提示语
 
@@ -65,7 +146,7 @@ candidate =  [
 - 所有文字信息都在卡片上叠加
 ```
 
-### 抽签页
+#### 抽签页
 
 
 ```md
@@ -119,6 +200,8 @@ candidate =  [
 - 先查找人物个人信息, 并存储到对应字段上, 年龄 age,技能 skill,性格 character
 ```
 
+
+## 其他
 
 
 
